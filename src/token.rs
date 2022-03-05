@@ -30,6 +30,7 @@ pub enum Token {
 
     // Delimiters
     Comma,
+    Colon,
     Semicolon,
     LeftParen,
     RightParen,
@@ -39,12 +40,12 @@ pub enum Token {
     RightBracket,
 
     // Keywords
-    Let,
+    Set,
     Func,
     If,
     Else,
     Return,
-    Import
+    Include
 
 }
 

@@ -4,12 +4,12 @@ use std::collections::HashMap;
 lazy_static::lazy_static! {
     static ref KEYWORDS: HashMap<&'static str, Token> = {
         let mut keywords = HashMap::new();
-        keywords.insert("let", Token::Let);
+        keywords.insert("set", Token::Set);
         keywords.insert("fun", Token::Func);
         keywords.insert("if", Token::If);
         keywords.insert("else", Token::Else);
         keywords.insert("return", Token::Return);
-        keywords.insert("import", Token::Import);
+        keywords.insert("include", Token::Include);
         keywords.insert("true", Token::Boolean(true));
         keywords.insert("false", Token::Boolean(false));
         keywords
@@ -104,12 +104,7 @@ impl Lexer {
                 }
             }
             ';' => Token::Semicolon,
-            '(' => Token::LeftBracket,
-            ')' => Token::RightParen,
-            '{' => Token::LeftBrace,
-            '}' => Token::RightBrace,
-            '[' => Token::LeftBracket,
-            ']' => Token::RightBracket,
+            ':' => Token::Colon,
             ',' => Token::Comma,
             '+' => Token::Plus,
             '-' => Token::Minus,
@@ -122,6 +117,12 @@ impl Lexer {
                     Token::Bang
                 }
             }
+            '(' => Token::LeftParen,
+            ')' => Token::RightParen,
+            '{' => Token::LeftBrace,
+            '}' => Token::RightBrace,
+            '[' => Token::LeftBracket,
+            ']' => Token::RightBracket,
             '*' => Token::Asterisk,
             '/' => Token::Slash,
             '<' => {

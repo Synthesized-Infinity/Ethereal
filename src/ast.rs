@@ -30,15 +30,17 @@ pub enum Literal {
     Int(i32),
     String(String),
     Boolean(bool),
-    Array(Vec<Expr>)
+    Array(Vec<Expr>),
+    Object(Vec<(Expr, Expr)>)
 }
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Statement {
-    Let(Ident, Expr),
+    Set(Ident, Expr),
     Return(Expr),
     Expression(Expr),
-    Import(Ident),
+    Include(String),
+    Update(Ident, Expr)
 }
 
 #[derive(PartialEq, PartialOrd, Debug, Clone)]
@@ -85,7 +87,7 @@ pub enum Expr {
 
 #[derive(PartialEq, Clone, Debug)]
 pub struct Program {
-    statements: Vec<Statement>
+    pub(crate) statements: Vec<Statement>
 }
 
 // Implement the Display trait for all the types we have
