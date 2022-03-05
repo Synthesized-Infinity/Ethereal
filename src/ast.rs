@@ -1,8 +1,7 @@
 use std::fmt::{self, Display, Formatter};
 
-pub struct Ident {
-    pub name: String
-}
+#[derive(PartialEq, Clone, Debug)]
+pub struct Ident(pub String);
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Prefix {
@@ -31,7 +30,6 @@ pub enum Literal {
     Int(i32),
     String(String),
     Boolean(bool),
-    Object(Object),
     Array(Vec<Expr>)
 }
 
