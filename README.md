@@ -1,2 +1,2 @@
 # Ethereal
-Programming Language buitl with Rust
+Programming Language build with Rust
