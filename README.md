@@ -5,7 +5,7 @@
 
 </div>
 
-## Baisc Docs
+## Basic Docs
 
 General documentation | Better documentation on the works 
 
