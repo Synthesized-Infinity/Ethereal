@@ -5,13 +5,13 @@ pub mod ast;
 pub mod evaluation;
 pub mod lexer;
 pub mod parser;
-pub mod token;
 pub mod std_lib;
 
 use evaluation::{store::Store, object::Object, Eval};
 use lexer::Lexer;
 use parser::Parser;
 use std::{cell::RefCell, env, fs, rc::Rc};
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();

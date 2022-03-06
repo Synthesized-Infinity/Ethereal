@@ -9,25 +9,88 @@ use store::Store;
 use object::Object;
 use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
-use self::lib::{load_etrl};
+use self::lib::load_etrl;
 
+/// ## Eval
+/// The Eval struct is used to evaluate an AST.
+/// It contains a reference to a Store, which is used to store variables.
+/// The Eval struct also contains a reference to the global environment.
+/// The global environment is a HashMap of names to objects.
+/// The Eval struct also contains a reference to the current environment.
 pub struct Eval {
+    /// The current environment.
     pub store: Rc<RefCell<Store>>,
 }
 
 impl Eval {
+    /// ## new
+    /// Creates a new Eval struct.
+    /// # Arguments
+    /// * `store` - The store to use.
+    /// # Returns
+    /// `Eval` - The new Eval struct.
     pub fn new(store: Rc<RefCell<Store>>) -> Self {
         Eval { store }
     }
 
+    /// ## is_truthy
+    /// Checks if an object is truthy.
+    /// # Arguments
+    /// * `obj` - The object to check.
+    /// # Returns
+    /// `bool` - Whether the object is truthy.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let obj = Object::Boolean(true);
+    /// assert_eq!(true, is_truthy(obj));
+    /// ```
     fn is_truthy(&mut self, object: Object) -> bool {
         !matches!(object, Object::Null | Object::Bool(false))
     }
 
+    /// ##is_error
+    /// Checks if an object is an error.
+    /// # Arguments
+    /// * `object` - The object to check.
+    /// # Returns
+    /// `bool` - Whether the object is an error.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let obj = Object::Error(String::from("Error"));
+    /// assert_eq!(true, is_error(obj));
+    /// ```
     fn is_error(&mut self, object: &Object) -> bool {
         matches!(object, Object::Error(_))
     }
 
+    /// ## eval
+    /// Evaluates the program.
+    /// It loops over all the statements in the program,
+    /// and evaluates them.
+    /// If an error occurs, it is returned.
+    /// # Arguments
+    /// * `program` - The program to evaluate.
+    /// # Returns
+    /// `Object` - The result of the evaluation.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let program = Program {
+    ///    statements: vec![
+    ///       Statement::Expression(Expression::Identifier(String::from("x"))),
+    ///      Statement::Expression(Expression::Identifier(String::from("y"))),
+    ///     Statement::Expression(Expression::Identifier(String::from("z"))),
+    ///   ],
+    /// };
+    /// let mut eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let result = eval.eval(program);
+    /// assert_eq!(Object::Null, result);
+    /// ```
     pub fn eval(&mut self, program: Program) -> Option<Object> {
         let mut result = None;
 
@@ -42,6 +105,23 @@ impl Eval {
         result
     }
 
+    /// ## eval_statement
+    /// Evaluates a statement.
+    /// It matches the statement type,
+    /// and calls the appropriate function to evaluate it.
+    /// # Arguments
+    /// * `statement` - The statement to evaluate.
+    /// # Returns
+    /// `Option<Object>` - The result of the evaluation.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let statement = Statement::Expression(Expression::Identifier(String::from("x")));
+    /// let mut eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let result = eval.eval_statement(statement);
+    /// assert_eq!(Some(Object::Null), result);
+    /// ```
     fn eval_statement(&mut self, statement: Statement) -> Option<Object> {
         match statement {
             Statement::Expression(e) => self.eval_expr(e),
@@ -66,7 +146,7 @@ impl Eval {
                     None
                 }
             }
-            Statement::Update(i, v) => {
+            Statement::Anew(i, v) => {
                 let Ident(name) = i;
                 let val = match self.eval_expr(v) {
                     Some(value) => value,
@@ -78,7 +158,7 @@ impl Eval {
                     let mut store = self.store.borrow_mut();
                     match store.get(&name) {
                         Some(_) => {
-                            store.update(name, val);
+                            store.anew(name, val);
                             None
                         }
                         None => Some(Object::Error(format!("identifier not found: {}", name))),
@@ -92,6 +172,30 @@ impl Eval {
         }
     }
 
+    /// ## eval_block_statement
+    /// Evaluates a block statement.
+    /// It loops over all the statements in the block,
+    /// and evaluates them.
+    /// If an error occurs, it is returned.
+    /// # Arguments
+    /// * `statements` - The block to evaluate.
+    /// # Returns
+    /// `Option<Object>` - The result of the evaluation.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let block = Block {
+    ///   statements: vec![
+    ///    Statement::Expression(Expression::Identifier(String::from("x"))),
+    ///  Statement::Expression(Expression::Identifier(String::from("y"))),
+    /// Statement::Expression(Expression::Identifier(String::from("z"))),
+    /// ],
+    /// };
+    /// let mut eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let result = eval.eval_block_statement(block);
+    /// assert_eq!(Some(Object::Null), result);
+    /// ```
     fn eval_block_statement(&mut self, statements: BlockStatement) -> Option<Object> {
         let mut result = None;
 
@@ -106,6 +210,23 @@ impl Eval {
         result
     }
 
+    /// ## eval_expr
+    /// Evaluates an expression.
+    /// It matches the expression type,
+    /// and calls the appropriate function to evaluate it.
+    /// # Arguments
+    /// * `expr` - The expression to evaluate.
+    /// # Returns
+    /// `Option<Object>` - The result of the evaluation.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let expr = Expression::Identifier(String::from("x"));
+    /// let mut eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let result = eval.eval_expr(expr);
+    /// assert_eq!(Some(Object::Null), result);
+    /// ```
     fn eval_expr(&mut self, expr: Expr) -> Option<Object> {
         match expr {
             Expr::Ident(ident) => Some(self.eval_ident(ident)),
@@ -161,6 +282,15 @@ impl Eval {
         }
     }
 
+    /// ## eval_prefix_expr
+    /// Evaluates a prefix expression.
+    /// It matches the prefix operator,
+    /// and calls the appropriate function to evaluate it.
+    /// # Arguments
+    /// * `prefix` - The prefix operator.
+    /// * `expr` - The expression to evaluate.
+    /// # Returns
+    /// `Option<Object>` - The result of the evaluation.
     fn eval_prefix_expr(&mut self, prefix: Prefix, expr: Object) -> Object {
         if self.is_error(&expr) {
             return expr;
@@ -172,6 +302,12 @@ impl Eval {
         }
     }
 
+    /// ## eval_not_prefix_expr
+    /// Evaluates a `NOT` prefix expression.
+    /// # Arguments
+    /// * `expr` - The expression to evaluate.
+    /// # Returns
+    /// `Object` - The result of the evaluation.
     fn eval_not_prefix_expr(&mut self, expr: Object) -> Object {
         match expr {
             Object::Bool(true) => Object::Bool(false),
@@ -181,6 +317,21 @@ impl Eval {
         }
     }
 
+    /// ## eval_minus_prefix_expr
+    /// Evaluates a `MINUS` prefix expression.
+    /// # Arguments
+    /// * `expr` - The expression to evaluate.
+    /// # Returns
+    /// `Object` - The result of the evaluation.
+    /// # Examples
+    /// ```
+    /// use crate::eval::Eval;
+    /// let eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let expr = Expression::Literal(Literal::Number(1.0));
+    /// let mut eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+    /// let result = eval.eval_minus_prefix_expr(expr);
+    /// assert_eq!(Some(Object::Number(-1.0)), result);
+    /// ```
     fn eval_minus_prefix_expr(&mut self, expr: Object) -> Object {
         match expr {
             Object::Int(i) => Object::Int(-i),
@@ -188,6 +339,14 @@ impl Eval {
         }
     }
 
+    /// ## eval_plus_prefix_expr
+    /// Evaluates a `PLUS` prefix expression.
+    /// # Arguments
+    /// * `expr` - The expression to evaluate.
+    /// # Returns
+    /// `Object` - The result of the evaluation.
+    /// # Errors
+    /// `Error` - If the expression is not a number.
     fn eval_plus_prefix_expr(&mut self, expr: Object) -> Object {
         match expr {
             Object::Int(i) => Object::Int(i),
@@ -195,6 +354,18 @@ impl Eval {
         }
     }
 
+    /// ## eval_infix_expr
+    /// Evaluates an infix expression.
+    /// It matches the infix operator,
+    /// and calls the appropriate function to evaluate it.
+    /// # Arguments
+    /// * `infix` - The infix operator.
+    /// * `left` - The left expression.
+    /// * `right` - The right expression.
+    /// # Returns
+    /// `Option<Object>` - The result of the evaluation.
+    /// # Errors
+    /// `Error` - If the expression is not a number.
     fn eval_infix_expr(&mut self, infix: Infix, left: Object, right: Object) -> Object {
         match left {
             Object::Int(left_expr) => {
@@ -361,6 +532,14 @@ impl Eval {
         }
     }
 
+    /// Evaluate a literal expression
+    /// It matches the type of the literal and returns the appropriate object
+    /// # Arguments
+    /// * `lit` - The literal to be evaluated
+    /// # Returns
+    /// * `Object` - The object representing the literal
+    /// # Returns
+    /// * `Object` - If the literal is not a valid type
     fn eval_literal(&mut self, lit: Literal) -> Object {
         match lit {
             Literal::String(s) => Object::String(s),
@@ -375,6 +554,17 @@ impl Eval {
         }
     }
 
+    /// Evaluate an object literal
+    /// { "a": 1, "b": 2 }
+    /// => { "a": 1, "b": 2 }
+    /// # Examples
+    /// ```
+    /// use etrl::{Evaluator, Literal, Ident};
+    /// let mut eval = Evaluator::new();
+    /// let obj = Literal::Object(vec![(Ident::new("a"), Literal::Int(1)), (Ident::new("b"), Literal::Int(2))]);
+    /// let result = eval.eval_object_literal(obj);
+    /// assert_eq!(result, Object::Object(vec![(Ident::new("a"), Object::Int(1)), (Ident::new("b"), Object::Int(2))]));
+    /// ```
     fn eval_object_literal(&mut self, h: Vec<(Expr, Expr)>) -> Object {
         let mut hash = HashMap::new();
 

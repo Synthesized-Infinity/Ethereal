@@ -1,3 +1,4 @@
+pub mod token;
 use std::fmt::{self, Display, Formatter};
 
 #[derive(PartialEq, Clone, Debug)]
@@ -40,7 +41,7 @@ pub enum Statement {
     Return(Expr),
     Expression(Expr),
     Include(String),
-    Update(Ident, Expr)
+    Anew(Ident, Expr)
 }
 
 #[derive(PartialEq, PartialOrd, Debug, Clone)]

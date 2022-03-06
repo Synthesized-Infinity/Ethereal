@@ -1,4 +1,4 @@
-use crate::{ast::*, token::Token, lexer::Lexer};
+use crate::{ast::{*, token::Token}, lexer::Lexer};
 
 pub struct Parser {
     lexer: Lexer,
@@ -43,6 +43,7 @@ impl Parser {
             Token::Set => self.parse_set_statement(),
             Token::Return => self.parse_return_statement(),
             Token::Include => self.parse_include_statement(),
+            Token::Anew => self.parse_anew_expr(),
             _ => self.parse_expr_statement(),
         }
     }
@@ -136,6 +137,38 @@ impl Parser {
         statements
     }
 
+    pub fn parse_anew_expr(&mut self) -> Option<Statement> {
+        match &self.peek_token {
+            Token::Ident(_) => self.next_token(),
+            _ => {
+                self.peek_error(Token::Ident(String::new()));
+                return None;
+            }
+        }
+
+        let name: Ident = match self.parse_ident() {
+            Some(Expr::Ident(ref mut s)) => s.clone(),
+            _ => return None,
+        };
+
+        if !self.expect_peek(Token::Assign) {
+            return None;
+        }
+
+        self.next_token();
+
+        let lit: Expr = match self.parse_expr(Precedence::Lowest) {
+            Some(e) => e,
+            None => return None,
+        };
+
+        while !self.current_token(Token::Semicolon) {
+            self.next_token();
+        }
+
+        Some(Statement::Anew(name, lit))
+    }
+
     fn parse_expr(&mut self, precedence: Precedence) -> Option<Expr> {
         let mut left: Option<Expr> = match self.current_token {
             Token::Ident(_) => self.parse_ident(),
@@ -152,6 +185,7 @@ impl Parser {
                 None
             }
         };
+
 
         while !self.peek_token(&Token::Semicolon) && precedence < self.next_token_precedence() {
             match self.peek_token {

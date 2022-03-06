@@ -7,6 +7,12 @@ pub fn add_globals() -> HashMap<String, Object> {
     globals.insert(String::from("length"), Object::Inbuilt(length));
     globals
 }
+
+/// Function to get the length of an array or string.
+/// # Arguments
+/// * `args` - The array or string to get the length of.
+/// # Returns
+/// `Object` - The length of the array or string.
 pub fn length(args: Vec<Object>) -> Object {
     if args.len() != 1 {
         return Object::Error(format!(

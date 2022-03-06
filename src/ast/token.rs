@@ -19,6 +19,7 @@ pub enum Token {
     Asterisk,
     Slash,
     Percent,
+    Anew,
 
     // Comparison
     Less,

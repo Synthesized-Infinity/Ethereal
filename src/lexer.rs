@@ -1,10 +1,11 @@
-use crate::token::Token;
+use crate::ast::token::Token;
 use std::collections::HashMap;
 
 lazy_static::lazy_static! {
     static ref KEYWORDS: HashMap<&'static str, Token> = {
         let mut keywords = HashMap::new();
         keywords.insert("set", Token::Set);
+        keywords.insert("anew", Token::Anew);
         keywords.insert("fun", Token::Func);
         keywords.insert("if", Token::If);
         keywords.insert("else", Token::Else);
