@@ -29,6 +29,8 @@ Example
 set add = fun (x, y) {
     x + y
 };
+
+put(add(1, 2));
 ```
 
 4. Run
@@ -37,3 +39,6 @@ set add = fun (x, y) {
 # Windows: 
 # .\target\debug\ethereal.exe run <file>.etrl 
 ```
+
+
+
