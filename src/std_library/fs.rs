@@ -13,7 +13,6 @@ pub fn add_globals() -> HashMap<String, Object> {
     globals
 }
 
-
 pub fn read_file(args: Vec<Object>) -> Object {
     if args.len() != 1 {
         return Object::Error(format!(

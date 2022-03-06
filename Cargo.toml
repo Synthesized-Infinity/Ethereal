@@ -5,3 +5,12 @@ edition = "2021"
 
 [dependencies]
 lazy_static = "1.4.0"
+wasm-bindgen = "0.2"
+vfs = "0.6.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "ethereal"
+path = "src/main.rs"

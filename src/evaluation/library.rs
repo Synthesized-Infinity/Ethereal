@@ -1,5 +1,5 @@
 use super::{store::Store, object::*, Eval};
-use crate::{lexer::Lexer, parser::Parser, std_lib::get_std_lib};
+use crate::{lexer::Lexer, parser::Parser, std_library::*};
 use std::{cell::RefCell, collections::HashMap, fs, rc::Rc};
 
 /// Function to load an external file or a standard library onto the environment.\

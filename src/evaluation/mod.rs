@@ -1,6 +1,6 @@
 pub mod object;
 pub mod store;
-pub mod lib;
+pub mod library;
 pub mod globals;
 
 use crate::ast::*;
@@ -9,7 +9,7 @@ use store::Store;
 use object::Object;
 use std::{cell::RefCell, collections::HashMap, rc::Rc};
 
-use self::lib::load_etrl;
+use library::load_etrl;
 
 /// ## Eval
 /// The Eval struct is used to evaluate an AST.
