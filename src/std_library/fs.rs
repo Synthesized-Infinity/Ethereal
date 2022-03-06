@@ -5,12 +5,18 @@ use std::path::Path;
 
 use crate::evaluation::object::Object;
 
-pub fn add_globals() -> HashMap<String, Object> {
+use super::Res;
+
+pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
     globals.insert(String::from("readFile"), Object::Inbuilt(read_file));
     globals.insert(String::from("writeFile"), Object::Inbuilt(write_file));
     globals.insert(String::from("exists"), Object::Inbuilt(file_exists));
-    globals
+    return Res {
+        globals,
+        raw: None
+    }
+        
 }
 
 pub fn read_file(args: Vec<Object>) -> Object {

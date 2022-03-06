@@ -10,7 +10,12 @@ pub mod fs;
 /// * `lib` - The name of the library to load.
 /// # Returns
 /// `HashMap<String, Object>` - The environment with the library loaded.
-pub fn get_std_lib(lib: String) -> Option<HashMap<String, Object>> {
+
+pub struct Res {
+    pub globals: HashMap<String, Object>,
+    pub raw: Option<String>,
+}
+pub fn get_std_lib(lib: String) -> Option<Res> {
     match lib.as_str() {
         "std:util" => Some(util::add_globals()),
         "std:array" => Some(array::add_globals()),

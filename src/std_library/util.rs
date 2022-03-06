@@ -2,10 +2,12 @@ use std::collections::HashMap;
 
 use crate::evaluation::object::Object;
 
-pub fn add_globals() -> HashMap<String, Object> {
+use super::Res;
+
+pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
     globals.insert(String::from("length"), Object::Inbuilt(length));
-    globals
+    return Res { globals, raw: None }
 }
 
 /// Function to get the length of an array or string.

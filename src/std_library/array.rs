@@ -2,14 +2,35 @@ use std::collections::HashMap;
 
 use crate::evaluation::object::Object;
 
+use super::Res;
+
 /// Adds the standard library to the global environment.
-pub fn add_globals() -> HashMap<String, Object> {
+pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
     globals.insert(String::from("push"), Object::Inbuilt(push));
     globals.insert(String::from("pop"), Object::Inbuilt(pop));
     globals.insert(String::from("head"), Object::Inbuilt(head));
     globals.insert(String::from("tail"), Object::Inbuilt(tail));
-    globals
+    return Res {
+        globals,
+        raw: Some("
+            include \"std:util\";
+
+            set map = fun (arr, f) {
+                set res = [];
+                set iter = fun (array) {
+                    if (length(array) == 0) {
+                        return;
+                    } else {
+                        anew res = push(res, f(array[0]));
+                        iter(tail(array));
+                    }
+                };
+            iter(arr)
+            return res;
+            }; 
+        ".to_string())
+    }
 }
 
 /// The std:array-built-in function `push`.
