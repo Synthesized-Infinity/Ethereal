@@ -1,0 +1,24 @@
+include "std:array";
+
+set main = fun () {
+    set arr = [1, 2, 3, 4, 5];
+
+    put("Initial array: ", arr)
+
+    anew arr = push(arr, 6);
+
+    put("After Push: ", arr)
+
+    anew arr = pop(arr);
+
+    put("After Pop: ", arr)
+
+    anew arr = map(arr, fun (x) {
+        return x * 2;
+    });
+
+    put("After Map: ", arr)
+
+};
+
+main()

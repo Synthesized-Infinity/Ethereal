@@ -1,0 +1,21 @@
+set add = fun (x, y) {
+    return x + y;
+};
+
+set mul = fun (x, y) {
+    return x * y;
+};
+
+set sub = fun (x, y) {
+    return x - y;
+};
+
+set div = fun (x, y) {
+    return x / y;
+};
+
+put({"x": 1, "y": 2 })
+put("Addition: ", add(1, 2))
+put("Multiplication: ", mul(1, 2))
+put("Subtraction: ", sub(1, 2))
+put("Division: ", div(1, 2))
