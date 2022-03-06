@@ -3,8 +3,6 @@
 # Ethereal 
 > General Purpose Progamming Language. Built with Rust.
 
-### [Docs](https://github.com/Synthesized-Infinity/Ethereal/blob/main/docs.md)
-
 </div>
 
 ## Features
