@@ -1,5 +1,3 @@
-use wasm_bindgen::prelude::*;
-
 pub mod ast;
 pub mod evaluation;
 pub mod lexer;
@@ -11,8 +9,7 @@ use evaluation::{object::*, store::*, *};
 use lexer::Lexer;
 use parser::Parser;
 
-#[wasm_bindgen]
-pub fn interpert(content: &str) {
+pub fn interpret(content: &str) {
     let store = Store::new();
         let mut evaluator = Eval {
             store: Rc::new(RefCell::new(store)),

@@ -7,10 +7,10 @@ use super::Res;
 /// Adds the standard library to the global environment.
 pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
-    globals.insert(String::from("push"), Object::Inbuilt(push));
     globals.insert(String::from("pop"), Object::Inbuilt(pop));
     globals.insert(String::from("head"), Object::Inbuilt(head));
     globals.insert(String::from("tail"), Object::Inbuilt(tail));
+    globals.insert(String::from("push"), Object::Inbuilt(push));
     return Res {
         globals,
         raw: Some("

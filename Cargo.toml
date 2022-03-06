@@ -14,4 +14,8 @@ crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "ethereal"
-path = "src/main.rs"
+path = "src/bin/main.rs"
+
+[[bin]]
+name = "wasm"
+path = "src/wasm/main.rs"

@@ -28,6 +28,9 @@ pub fn load_etrl(lib: String) -> Option<HashMap<String, Object>> {
                 eval.eval(program);
                 let store = (&*eval.store.borrow()).to_owned().store;
                 let mut final_env = HashMap::new();
+                for (k, v) in libs.globals.iter() {
+                    final_env.insert(k.to_string(), v.to_owned());
+                }
                 for (k, v) in store.iter() {
                     final_env.insert(k.clone(), v.clone());
                 }
