@@ -409,7 +409,7 @@ impl Parser {
         };
         self.next_token();
         let body = self.parse_block_statement();
-
+        
         Some(Expr::Fun { params, body })
     }
 

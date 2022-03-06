@@ -59,6 +59,10 @@ impl Store {
             }
         }
     }
+
+    pub fn iter (&self) -> std::collections::hash_map::Iter<String, Object> {
+        self.store.iter()
+    }
 }
 
 impl Default for Store {
