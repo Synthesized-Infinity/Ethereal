@@ -1,17 +1,11 @@
 <div align=center>
 
 # Ethereal 
-> General Purpose Progamming Language. Built with Rust.
+> General Purpose Progamming Language
 
 </div>
 
-## Features
-
-- Flexibility
-- Performance
-- Ease of use
-
-## Docs
+## Baisc Docs
 
 General documentation | Better documentation on the works 
 
@@ -105,6 +99,8 @@ put(add(1, 2));
 
 4. Run
 ```bash
+make build-bin
+
 ./target/debug/ethereal run <file>.etrl
 # Windows: 
 # .\target\debug\ethereal.exe run <file>.etrl 
