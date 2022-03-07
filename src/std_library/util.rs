@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use std::{format, collections::HashMap};
 use crate::evaluation::object::Object;
 
 use super::Res;
