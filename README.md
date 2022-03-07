@@ -20,13 +20,15 @@ General documentation | Better documentation on the works
 
 ### Syntax
 
-> Include
+* Include
+> Note: Make sure to end include statements with a semi colon
 
 ```etrl
-include "file.etrl"
+include "file.etrl";
 ```
 
 > Set & Anew
+> Note: Make sure to end set/anew statements with a semi colon
 ```etrl
 set name = "Ethereal"
 anew name = "Ethereal" + " " + "Programming" + " " + "Language"
@@ -46,7 +48,7 @@ if number == 1 {
 ```etrl
 set add = fun(x, y) {
     x + y
-}
+};
 add(1, 2)
 ```
 
@@ -54,7 +56,7 @@ add(1, 2)
 ```etrl
 set sub = fun(x, y) {
     x - y
-}
+};
 return add(1, 2)
 ```
 
