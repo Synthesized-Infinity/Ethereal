@@ -61,12 +61,12 @@ impl Lexer {
         self.input[pos..self.position].to_string()
     }
 
-    fn read_number(&mut self) -> i32 {
+    fn read_number(&mut self) -> f64 {
         let pos: usize = self.position;
-        while self.ch.is_numeric() {
+        while self.ch.is_numeric() || self.ch == '.' {
             self.read_char();
         }
-        self.input[pos..self.position].parse::<i32>().unwrap()
+        self.input[pos..self.position].parse::<f64>().unwrap()
     }
 
     fn read_string(&mut self) -> String {
@@ -170,8 +170,8 @@ impl Lexer {
                         _ => Token::Ident(i),
                     };
                 } else if self.ch.is_numeric() {
-                    let i: i32 = self.read_number();
-                    return Token::Int(i);
+                    let i: f64 = self.read_number();
+                    return Token::Number(i);
                 } else {
                     Token::Illegal
                 }

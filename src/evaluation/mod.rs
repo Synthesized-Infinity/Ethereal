@@ -334,7 +334,7 @@ impl Eval {
     /// ```
     fn eval_minus_prefix_expr(&mut self, expr: Object) -> Object {
         match expr {
-            Object::Int(i) => Object::Int(-i),
+            Object::Number(i) => Object::Number(-i),
             _ => Object::Error(format!("unknown operator: -{}", expr)),
         }
     }
@@ -349,7 +349,7 @@ impl Eval {
     /// `Error` - If the expression is not a number.
     fn eval_plus_prefix_expr(&mut self, expr: Object) -> Object {
         match expr {
-            Object::Int(i) => Object::Int(i),
+            Object::Number(i) => Object::Number(i),
             _ => Object::Error(format!("unknown operator: {}", expr)),
         }
     }
@@ -368,8 +368,8 @@ impl Eval {
     /// `Error` - If the expression is not a number.
     fn eval_infix_expr(&mut self, infix: Infix, left: Object, right: Object) -> Object {
         match left {
-            Object::Int(left_expr) => {
-                if let Object::Int(right_expr) = right {
+            Object::Number(left_expr) => {
+                if let Object::Number(right_expr) = right {
                     self.eval_int_infix_expr(infix, left_expr, right_expr)
                 } else {
                     Object::Error(format!("type mismatch: {} {} {}", left, infix, right))
@@ -393,13 +393,13 @@ impl Eval {
         }
     }
 
-    fn eval_int_infix_expr(&mut self, infix: Infix, left: i32, right: i32) -> Object {
+    fn eval_int_infix_expr(&mut self, infix: Infix, left: f64, right: f64) -> Object {
         match infix {
-            Infix::Plus => Object::Int(left + right),
-            Infix::Minus => Object::Int(left - right),
-            Infix::Times => Object::Int(left * right),
-            Infix::Divide => Object::Int(left / right),
-            Infix::Modulo => Object::Int(left % right),
+            Infix::Plus => Object::Number(left + right),
+            Infix::Minus => Object::Number(left - right),
+            Infix::Times => Object::Number(left * right),
+            Infix::Divide => Object::Number(left / right),
+            Infix::Modulo => Object::Number(left % right),
             Infix::LessThan => Object::Bool(left < right),
             Infix::LessThanEqual => Object::Bool(left <= right),
             Infix::GreaterThan => Object::Bool(left > right),
@@ -422,14 +422,14 @@ impl Eval {
     fn eval_index_expr(&mut self, left: Object, index: Object) -> Object {
         match left {
             Object::Array(ref arr) => {
-                if let Object::Int(i) = index {
+                if let Object::Number(i) = index {
                     self.eval_array_index_expr(arr.clone(), i)
                 } else {
                     Object::Error(format!("index operator not supported: {}", left))
                 }
             }
             Object::Object(ref hash) => match index {
-                Object::Int(_) | Object::Bool(_) | Object::String(_) => match hash.get(&index) {
+                Object::Number(_) | Object::Bool(_) | Object::String(_) => match hash.get(&index) {
                     Some(o) => o.clone(),
                     None => Object::Null,
                 },
@@ -440,14 +440,14 @@ impl Eval {
         }
     }
 
-    fn eval_array_index_expr(&mut self, array: Vec<Object>, index: i32) -> Object {
-        let max = array.len() as i32;
+    fn eval_array_index_expr(&mut self, array: Vec<Object>, index: f64) -> Object {
+        let max = array.len() as f64;
         if index > max {
             return Object::Null;
         }
 
-        if index < 0 {
-            match array.get((array.len() as i32 + index) as usize) {
+        if index < 0.0 {
+            match array.get((array.len() as f64 + index) as usize) {
                 Some(o) => return o.clone(),
                 None => return Object::Null,
             }
@@ -543,7 +543,7 @@ impl Eval {
     fn eval_literal(&mut self, lit: Literal) -> Object {
         match lit {
             Literal::String(s) => Object::String(s),
-            Literal::Int(i) => Object::Int(i),
+            Literal::Number(i) => Object::Number(i),
             Literal::Boolean(b) => Object::Bool(b),
             Literal::Array(a) => Object::Array(
                 a.iter()
@@ -561,9 +561,9 @@ impl Eval {
     /// ```
     /// use etrl::{Evaluator, Literal, Ident};
     /// let mut eval = Evaluator::new();
-    /// let obj = Literal::Object(vec![(Ident::new("a"), Literal::Int(1)), (Ident::new("b"), Literal::Int(2))]);
+    /// let obj = Literal::Object(vec![(Ident::new("a"), Literal::Number(1)), (Ident::new("b"), Literal::Number(2))]);
     /// let result = eval.eval_object_literal(obj);
-    /// assert_eq!(result, Object::Object(vec![(Ident::new("a"), Object::Int(1)), (Ident::new("b"), Object::Int(2))]));
+    /// assert_eq!(result, Object::Object(vec![(Ident::new("a"), Object::Number(1)), (Ident::new("b"), Object::Number(2))]));
     /// ```
     fn eval_object_literal(&mut self, h: Vec<(Expr, Expr)>) -> Object {
         let mut hash = HashMap::new();

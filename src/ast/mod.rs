@@ -28,7 +28,7 @@ pub enum Infix {
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Literal {
-    Int(i32),
+    Number(f64),
     String(String),
     Boolean(bool),
     Array(Vec<Expr>),

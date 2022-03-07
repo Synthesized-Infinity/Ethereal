@@ -12,7 +12,7 @@ pub type InbuiltFunction = fn(Vec<Object>) -> Object;
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Object {
-    Int(i32),
+    Number(f64),
     String(String),
     Bool(bool),
     Null,
@@ -29,7 +29,7 @@ impl Eq for Object {}
 impl fmt::Display for Object {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Object::Int(ref value) => write!(f, "{}", value),
+            Object::Number(ref value) => write!(f, "{}", value),
             Object::String(ref value) => write!(f, "{}", value),
             Object::Bool(ref value) => write!(f, "{}", value),
             Object::Null => write!(f, "null"),
@@ -77,7 +77,6 @@ impl fmt::Display for Object {
 impl Hash for Object {
     fn hash<H: Hasher>(&self, state: &mut H) {
         match *self {
-            Object::Int(ref i) => i.hash(state),
             Object::Bool(ref b) => b.hash(state),
             Object::String(ref s) => s.hash(state),
             _ => "".hash(state),

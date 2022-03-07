@@ -24,8 +24,8 @@ pub fn length(args: Vec<Object>) -> Object {
         ));
     }
     match &args[0] {
-        Object::String(s) => Object::Int(s.len() as i32),
-        Object::Array(a) => Object::Int(a.len() as i32),
+        Object::String(s) => Object::Number(s.len() as f64),
+        Object::Array(a) => Object::Number(a.len() as f64),
         o => Object::Error(format!("Argument must be a string or array. Got {}", o)),
     }
 }

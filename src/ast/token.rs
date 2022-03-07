@@ -8,7 +8,7 @@ pub enum Token {
 
     // Literals
     Ident(String),
-    Int(i32),
+    Number(f64),
     String(String),
     Boolean(bool),
 
