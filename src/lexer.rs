@@ -13,6 +13,7 @@ lazy_static::lazy_static! {
         keywords.insert("include", Token::Include);
         keywords.insert("true", Token::Boolean(true));
         keywords.insert("false", Token::Boolean(false));
+        keywords.insert("typeof", Token::Typeof);
         keywords
     };
 }

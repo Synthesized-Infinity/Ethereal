@@ -169,6 +169,15 @@ impl Parser {
         Some(Statement::Anew(name, lit))
     }
 
+    fn parse_typof_expr(&mut self) -> Option<Expr> {
+        self.next_token();
+        let expr = match self.parse_expr(Precedence::Lowest) {
+            Some(e) => e,
+            None => return None,
+        };
+        Some(Expr::Typeof { expr: Box::new(expr) })
+    }
+
     fn parse_expr(&mut self, precedence: Precedence) -> Option<Expr> {
         let mut left: Option<Expr> = match self.current_token {
             Token::Ident(_) => self.parse_ident(),
@@ -181,6 +190,7 @@ impl Parser {
             Token::String(_) => self.parse_string_literal(),
             Token::LeftBracket => self.parse_array_literal(),
             Token::LeftBrace => self.parse_object_literal(),
+            Token::Typeof => self.parse_typof_expr(),
             _ => {
                 None
             }

@@ -22,6 +22,7 @@ pub enum Object {
     Inbuilt(InbuiltFunction),
     Array(Vec<Object>),
     Object(HashMap<Object, Object>),
+    Typeof(Box<Object>),
 }
 
 impl Eq for Object {}
@@ -70,6 +71,7 @@ impl fmt::Display for Object {
 
                 write!(f, "{{{}}}", res)
             }
+            Object::Typeof(ref obj) => write!(f, "typeof({})", obj),
         }
     }
 }
