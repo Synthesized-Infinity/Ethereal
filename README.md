@@ -74,6 +74,7 @@ return add(1, 2)
 4. `std:string` - String functions
 5. `std:math` - Math functions
 
+Better documentation on the works
 
 
 ## Running Locally
