@@ -8,12 +8,13 @@ lazy_static = "1.4.0"
 wasm-bindgen = "0.2"
 vfs = "0.6.0"
 rusty_express = "^0.3.0"
+rand = "0.8.5"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [[bin]]
-name = "ethereal"
+name = "ethereal-bin"
 path = "src/bin/main.rs"
 
 [[bin]]
