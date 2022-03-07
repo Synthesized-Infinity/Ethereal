@@ -3,6 +3,7 @@ pub mod evaluation;
 pub mod lexer;
 pub mod parser;
 pub mod std_library;
+pub mod repl;
 use std::{rc::Rc, cell::RefCell};
 
 use evaluation::{object::*, store::*, *};
