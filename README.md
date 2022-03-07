@@ -119,7 +119,7 @@ put(add(1, 2));
 ```bash
 make build-bin
 
-./target/debug/ethereal run <file>.etrl
+./target/debug/ethereal-bin run <file>.etrl
 # Windows: 
 # .\target\debug\ethereal.exe run <file>.etrl 
 ```
