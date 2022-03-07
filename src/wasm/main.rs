@@ -19,7 +19,7 @@ extern "C" {
     fn print(input_ptr: *mut c_char);
 }
 
-fn internal_print(msg: &str) {
+pub fn internal_print(msg: &str) {
     unsafe {
         print(string_to_ptr(msg.to_string()));
     }

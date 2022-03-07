@@ -71,6 +71,8 @@ return add(1, 2)
 1. `std:utils` - Utilities
 2. `std:array` - Array functions
 3. `std:fs` - File system functions
+4. `std:string` - String functions
+5. `std:math` - Math functions
 
 
 
