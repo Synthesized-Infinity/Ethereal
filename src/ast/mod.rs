@@ -83,6 +83,10 @@ pub enum Expr {
     Index {
         array: Box<Expr>,
         index: Box<Expr>
+    },
+
+    Typeof {
+        expr: Box<Expr>
     }
 }
 

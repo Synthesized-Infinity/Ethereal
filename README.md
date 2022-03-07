@@ -17,6 +17,7 @@ General documentation | Better documentation on the works
     * `if/else` - Conditional statements
     * `fun` - Function definition
     * `return` - Return from a function
+    * `typeof` - Get the type of a variable
 
 ### Syntax
 
@@ -37,7 +38,7 @@ anew name = "Ethereal" + " " + "Programming" + " " + "Language"
 * If & Else
 ```etrl
 set number = 1
-if number == 1 {
+if (number == 1) {
     put("Number is 1")
 } else {
     put("Number is not 1")
@@ -59,6 +60,15 @@ set sub = fun(x, y) {
 };
 return add(1, 2)
 ```
+
+* Typeof
+```etrl
+set var = 1;
+if (typeof var) == "number" {
+    put("Variable is a number")
+} else {
+    put("Variable is not a number")
+}
 
 * Comments 
 ```etrl

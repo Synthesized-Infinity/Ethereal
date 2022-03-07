@@ -47,7 +47,8 @@ pub enum Token {
     If,
     Else,
     Return,
-    Include
+    Include,
+    Typeof
 
 }
 

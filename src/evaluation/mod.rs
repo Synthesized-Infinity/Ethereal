@@ -279,7 +279,22 @@ impl Eval {
                     None
                 }
             }
+            Expr::Typeof { expr } => Some(self.eval_typeof_expr(*expr)),
         }
+    }
+
+    fn eval_typeof_expr(&mut self, expr: Expr) -> Object {
+        let obj = self.eval_expr(expr);
+        match &obj.unwrap() {
+            Object::Null => Object::String(String::from("null")),
+            Object::Bool(_) => Object::String(String::from("boolean")),
+            Object::Number(_) => Object::String(String::from("number")),
+            Object::String(_) => Object::String(String::from("string")),
+            Object::Array(_) => Object::String(String::from("array")),
+            Object::Object(_) => Object::String(String::from("object")),
+            _ => Object::String(String::from("undefined")),
+        }
+
     }
 
     /// ## eval_prefix_expr
@@ -288,7 +303,7 @@ impl Eval {
     /// and calls the appropriate function to evaluate it.
     /// # Arguments
     /// * `prefix` - The prefix operator.
-    /// * `expr` - The expression to evaluate.
+    /// * `expr` - The expression to evaluate.s
     /// # Returns
     /// `Option<Object>` - The result of the evaluation.
     fn eval_prefix_expr(&mut self, prefix: Prefix, expr: Object) -> Object {
