@@ -27,14 +27,14 @@ General documentation | Better documentation on the works
 include "file.etrl";
 ```
 
-> Set & Anew
+* Set & Anew
 > Note: Make sure to end set/anew statements with a semi colon
 ```etrl
 set name = "Ethereal"
 anew name = "Ethereal" + " " + "Programming" + " " + "Language"
 ```
 
-> If & Else
+* If & Else
 ```etrl
 set number = 1
 if number == 1 {
@@ -44,7 +44,7 @@ if number == 1 {
 }
 ```
 
-> Fun
+* Fun
 ```etrl
 set add = fun(x, y) {
     x + y
@@ -52,12 +52,17 @@ set add = fun(x, y) {
 add(1, 2)
 ```
 
-> Return (optional)
+* Return (optional)
 ```etrl
 set sub = fun(x, y) {
     x - y
 };
 return add(1, 2)
+```
+
+* Comments 
+```etrl
+// This is a comment
 ```
 
 ## Standard Library
@@ -66,8 +71,6 @@ return add(1, 2)
 1. `std:utils` - Utilities
 2. `std:array` - Array functions
 3. `std:fs` - File system functions
-
-
 
 
 

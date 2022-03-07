@@ -80,6 +80,17 @@ impl Lexer {
         self.input[pos..self.position].to_string()
     }
 
+    pub fn read_comment(&mut self) -> String {
+        let pos: usize = self.position;
+        loop {
+            self.read_char();
+            if self.ch == '\n' || self.ch == (0 as char) {
+                break;
+            }
+        }
+        self.input[pos..self.position].to_string()
+    }
+
     fn skip_whitespace(&mut self) {
         while self.ch == ' ' || self.ch == '\t' || self.ch == '\n' || self.ch == '\r' {
             self.read_char()
@@ -125,7 +136,14 @@ impl Lexer {
             '[' => Token::LeftBracket,
             ']' => Token::RightBracket,
             '*' => Token::Asterisk,
-            '/' => Token::Slash,
+            '/' => {
+                if self.peek_char() == '/' {
+                    self.read_comment();
+                    Token::Comment
+                } else {
+                    Token::Slash
+                }
+            }
             '<' => {
                 if self.peek_char() == '=' {
                     self.read_char();

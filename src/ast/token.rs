@@ -4,6 +4,7 @@ use std::fmt::{self, Display, Formatter};
 pub enum Token {
     Eof,
     Illegal,
+    Comment,
 
     // Literals
     Ident(String),
