@@ -6,6 +6,7 @@ use super::Res;
 pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
     globals.insert(String::from("length"), Object::Inbuilt(length));
+    globals.insert(String::from("input"), Object::Inbuilt(input));
     return Res { globals, raw: None }
 }
 
@@ -27,4 +28,17 @@ pub fn length(args: Vec<Object>) -> Object {
         Object::Array(a) => Object::Number(a.len() as f64),
         o => Object::Error(format!("Argument must be a string or array. Got {}", o)),
     }
+}
+
+pub fn input(args: Vec<Object>) -> Object {
+    println!("{}", &args[0]);
+    match &args[0] {
+        Object::String(s) => {
+            print!("{}", s);
+        }
+        _ => ()
+    }
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input).expect("Failed to read line");
+    return Object::String(input);
 }
