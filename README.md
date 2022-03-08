@@ -7,6 +7,7 @@
 
 Simple yet fast general-purpose programming language. 
 
+![Build](https://github.com/Synthesized-Infinity/Ethereal/actions/workflows/build.yml/badge.svg)
 
 [Documentation](https://ethereal-docs.vercel.app/)
 
@@ -49,6 +50,12 @@ cargo build --bin ethereal-bin
 ./target/debug/ethereal-bin 
 ```
 
+
+----
+
+### Community 
+
+Discord:
 
 [![DISCORD](https://invidget.switchblade.xyz/FJuArcCfQv)](https://discord.gg/FJuArcCfQv)
 
