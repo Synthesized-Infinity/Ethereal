@@ -18,7 +18,7 @@ fn main() {
     } else {
     
         println!(
-            "Welcome to the ethereal REPL. Type in commands to get started.",
+            "Welcome to the Ethereal REPL. Type in commands to get started.",
         );
         repl::start();
     }
