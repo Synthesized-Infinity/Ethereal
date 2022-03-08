@@ -12,7 +12,7 @@ Simple yet fast general-purpose programming language.
 [Documentation](https://ethereal-docs.vercel.app/)
 
 
-Ethereal is a general-purpose programming language that is designed to be fast and simple. Heavly inspired by Inspired by [Monkey](https://monkeylang.org/) and written in [Rust](https://rust-lang.org/)
+Ethereal is a general-purpose programming language that is designed to be fast and simple. Heavly inspired by [Monkey](https://monkeylang.org/) and written in [Rust](https://rust-lang.org/)
 
 </div>
 
