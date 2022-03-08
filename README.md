@@ -1,128 +1,54 @@
-<div align=center>
+<div align="center">
 
-# Ethereal 
-> General Purpose Progamming Language
+<img src=https://ethereal-docs.vercel.app/Logo.png width=128>
+
+
+# Ethereal
+
+Simple yet fast general-purpose programming language. 
+
+
+[Documentation](https://ethereal-docs.vercel.app/)
+
+
+Ethereal is a general-purpose programming language that is designed to be fast and simple. Heavly inspired by Inspired by [Monkey](https://monkeylang.org/) and written in [Rust](https://rust-lang.org/)
 
 </div>
 
-## Basic Docs
+### Features
 
-General documentation | Better documentation on the works 
-
-### Keywords
-
-    * `include` - Import an external file
-    * `set` - Set a variable
-    * `anew` - Re-define a variable
-    * `if/else` - Conditional statements
-    * `fun` - Function definition
-    * `return` - Return from a function
-    * `typeof` - Get the type of a variable
-
-### Syntax
-
-* Include
-> Note: Make sure to end include statements with a semi colon
-
-```etrl
-include "file.etrl";
-```
-
-* Set & Anew
-> Note: Make sure to end set/anew statements with a semi colon
-```etrl
-set name = "Ethereal"
-anew name = "Ethereal" + " " + "Programming" + " " + "Language"
-```
-
-* If & Else
-```etrl
-set number = 1
-if (number == 1) {
-    put("Number is 1")
-} else {
-    put("Number is not 1")
-}
-```
-
-* Fun
-```etrl
-set add = fun(x, y) {
-    x + y
-};
-add(1, 2)
-```
-
-* Return (optional)
-```etrl
-set sub = fun(x, y) {
-    x - y
-};
-return add(1, 2)
-```
-
-* Typeof
-```etrl
-set var = 1;
-if (typeof var) == "number" {
-    put("Variable is a number")
-} else {
-    put("Variable is not a number")
-}
-
-* Comments 
-```etrl
-// This is a comment
-```
-
-## Standard Library
-> Ethereal has a built-in library of functions.
-
-1. `std:utils` - Utilities
-2. `std:array` - Array functions
-3. `std:fs` - File system functions
-4. `std:string` - String functions
-5. `std:math` - Math functions
-
-Better documentation on the works
+- Includes a Standard Library
+- Comes with a REPL
+- Compiles to WASM (Experimental)
 
 
-## Running Locally
+Want to contribute? Read the steps below on how to run ethereal on your local machine.
 
-1. Clone the repository
+### Prerequisites
 
-```sh
-git clone https://github.com/sythesized_infinity/Ethereal.git
-    
+    - [Rust](https://rust-lang.org/)
+
+### Running Locally
+
+1. Clone the Repository
+
+```bash
+git clone https://github.com/Synthesized-Infinity/Ethereal
 cd Ethereal
 ```
 
-2. Build the project
+2. Build the binary
 
-```
-cargo build
-```
-
-3. Create a file with the extension `.etrl`
-
-Example
-
-```
-set add = fun (x, y) {
-    x + y
-};
-
-put(add(1, 2));
-```
-
-4. Run
 ```bash
-make build-bin
+cargo build --bin ethereal-bin
+```
 
-./target/debug/ethereal-bin run <file>.etrl
-# Windows: 
-# .\target\debug\ethereal.exe run <file>.etrl 
+3. Run the binary
+
+```bash
+./target/debug/ethereal-bin 
 ```
 
 
+[![DISCORD](https://invidget.switchblade.xyz/FJuArcCfQv)](https://discord.gg/FJuArcCfQv)
 
