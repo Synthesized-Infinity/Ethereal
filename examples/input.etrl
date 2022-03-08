@@ -1,0 +1,10 @@
+include "std:util";
+
+set main = fun() {
+    set name = input("What is your name? ");
+    set age = input("How old are you? ");
+
+    put("Hello, " + name + "! You are " + age + " years old.");
+};
+
+main()
