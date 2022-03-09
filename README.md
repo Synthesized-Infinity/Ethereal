@@ -27,7 +27,7 @@ Want to contribute? Read the steps below on how to run ethereal on your local ma
 
 ### Prerequisites
 
-    - [Rust](https://rust-lang.org/)
+* [Rust](https://rust-lang.org/)
 
 ### Running Locally
 
