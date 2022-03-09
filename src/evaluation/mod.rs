@@ -386,6 +386,8 @@ impl Eval {
             Object::Number(left_expr) => {
                 if let Object::Number(right_expr) = right {
                     self.eval_int_infix_expr(infix, left_expr, right_expr)
+                } else if let Object::Object(right_expr) = right {
+                    self.eval_object_infix_expr(infix, Object::Number(left_expr), Object::Object(right_expr))
                 } else {
                     Object::Error(format!("type mismatch: {} {} {}", left, infix, right))
                 }
@@ -393,17 +395,34 @@ impl Eval {
             Object::String(left_expr) => {
                 if let Object::String(right_expr) = right {
                     self.eval_string_infix_expr(infix, left_expr, right_expr)
+                } else if let Object::Object(right_expr) = right {
+                    self.eval_object_infix_expr(infix, Object::String(left_expr), Object::Object(right_expr))
                 } else {
                     Object::Error(format!("type mismatch: {} {} {}", left_expr, infix, right))
                 }
             }
-            _ => Object::Error(format!("unknown operator: {} {} {}", left, infix, right)),
+            _ => self.eval_object_infix_expr(infix, left, right)
         }
     }
 
     fn eval_string_infix_expr(&mut self, infix: Infix, left: String, right: String) -> Object {
         match infix {
             Infix::Plus => Object::String(format!("{}{}", left, right)),
+            _ => Object::Error(format!("unknown operator: {} {} {}", left, infix, right)),
+        }
+    }
+
+    fn eval_object_infix_expr(&mut self, infix: Infix, left: Object, right: Object) -> Object {
+        match infix {
+            Infix::In => {
+                if let Object::Object(right) = right {
+                    Object::Bool(right.contains_key(&left))
+                } else if let Object::Array(right) = right {
+                    Object::Bool(right.contains(&left))
+                } else {
+                    Object::Error(format!("unknown operator: {} {} {}", left, infix, right))
+                }
+            }
             _ => Object::Error(format!("unknown operator: {} {} {}", left, infix, right)),
         }
     }
@@ -421,6 +440,7 @@ impl Eval {
             Infix::GreaterThanEqual => Object::Bool(left >= right),
             Infix::Equals => Object::Bool(left == right),
             Infix::NotEquals => Object::Bool(left != right),
+            Infix::In => Object::Bool(left.to_string().contains(&right.to_string())),
         }
     }
 

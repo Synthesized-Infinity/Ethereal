@@ -21,6 +21,7 @@ pub enum Token {
     Slash,
     Percent,
     Anew,
+    In,
 
     // Comparison
     Less,

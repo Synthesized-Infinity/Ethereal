@@ -209,7 +209,8 @@ impl Parser {
                 | Token::Less
                 | Token::LessEqual
                 | Token::Greater
-                | Token::GreaterEqual => {
+                | Token::GreaterEqual 
+                | Token::In => {
                     self.next_token();
                     left = self.parse_infix_expr(left.unwrap());
                 }
@@ -351,6 +352,7 @@ impl Parser {
             Token::Greater => Infix::GreaterThan,
             Token::LessEqual => Infix::LessThanEqual,
             Token::GreaterEqual => Infix::GreaterThanEqual,
+            Token::In => Infix::In,
             _ => return None,
         };
 
@@ -362,7 +364,6 @@ impl Parser {
     }
 
     fn parse_grouped_expr(&mut self) -> Option<Expr> {
-        self.next_token();
         let exp = self.parse_expr(Precedence::Lowest);
         if !self.expect_peek(Token::RightParen) {
             return None;
@@ -432,6 +433,7 @@ impl Parser {
             Token::Slash | Token::Asterisk | Token::Percent => Precedence::Product,
             Token::LeftBracket => Precedence::Index,
             Token::LeftParen => Precedence::Call,
+            Token::In => Precedence::In,
             _ => Precedence::Lowest,
         }
     }

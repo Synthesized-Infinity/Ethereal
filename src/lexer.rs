@@ -130,6 +130,7 @@ impl Lexer {
                     Token::Bang
                 }
             }
+            '~' => Token::In,
             '(' => Token::LeftParen,
             ')' => Token::RightParen,
             '{' => Token::LeftBrace,

@@ -13,6 +13,7 @@ pub enum Prefix {
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Infix {
+    In,
     Plus,
     Minus,
     Times,
@@ -53,7 +54,8 @@ pub enum Precedence {
     Product,
     Prefix,
     Call,
-    Index
+    Index,
+    In
 }
 
 pub type BlockStatement = Vec<Statement>;
@@ -87,7 +89,8 @@ pub enum Expr {
 
     Typeof {
         expr: Box<Expr>
-    }
+    },
+
 }
 
 #[derive(PartialEq, Clone, Debug)]
@@ -110,6 +113,7 @@ impl Display for Prefix {
 impl Display for Infix {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
+            Infix::In => write!(f, "~"),
             Infix::Plus => write!(f, "+"),
             Infix::Minus => write!(f, "-"),
             Infix::Times => write!(f, "*"),
