@@ -11,6 +11,7 @@ pub fn add_globals() -> Res {
     globals.insert(String::from("head"), Object::Inbuilt(head));
     globals.insert(String::from("tail"), Object::Inbuilt(tail));
     globals.insert(String::from("push"), Object::Inbuilt(push));
+    globals.insert(String::from("includes"), Object::Inbuilt(includes));
     Res {
         globals,
         raw: Some("
@@ -98,6 +99,22 @@ pub fn tail (args: Vec<Object>) -> Object {
     }
     match &args[0] {
         Object::Array(a) => Object::Array(a[1..].to_vec()),
+        o => Object::Error(format!("First argument must be an array. Got {}", o)),
+    }
+}
+
+pub fn includes (args: Vec<Object>) -> Object {
+    if args.len() != 2 {
+        return Object::Error(format!(
+            "Wrong number of arguments. Got {}. Expected 2.",
+            args.len()
+        ));
+    }
+    match &args[0] {
+        Object::Array(a) => {
+            let array = a.clone();
+            Object::Bool(array.contains(&args[1]))
+        }
         o => Object::Error(format!("First argument must be an array. Got {}", o)),
     }
 }
