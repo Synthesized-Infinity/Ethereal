@@ -1,7 +1,7 @@
 use super::{store::Store, object::*, Eval};
 use crate::{lexer::Lexer, parser::Parser, std_library::*};
 use std::{cell::RefCell, collections::{HashMap}, fs, rc::Rc};
-
+use std::io::Read;
 /// Function to load an external file or a standard library onto the environment.\
 /// The file is loaded as a string, and the string is parsed into an AST.
 /// The AST is then evaluated.
@@ -12,6 +12,28 @@ use std::{cell::RefCell, collections::{HashMap}, fs, rc::Rc};
 /// `HashMap<String, Object>` - The environment with the library loaded.
 /// 
 pub fn load_etrl(lib: String) -> Option<HashMap<String, Object>> {
+
+    // check if lib is a url 
+    if lib.starts_with("http") || lib.starts_with("https") {
+        // fetch the url resource
+        let mut response = reqwest::blocking::get(lib).unwrap();
+        // read the response
+        let mut contents = String::new();
+        response.read_to_string(&mut contents).unwrap();
+        // parse the contents
+        let mut parser = Parser::new(Lexer::new(contents.to_string()));
+        let program = parser.parse_program();
+        let mut eval = Eval::new(Rc::new(RefCell::new(Store::new())));
+        // Evaluates the program.
+        eval.eval(program);
+        let store = (&*eval.store.borrow()).to_owned().store;
+        let mut final_env = HashMap::new();
+        // Returns the environment with the library loaded.
+        for (k, v) in store.iter() {
+            final_env.insert(k.clone(), v.clone());
+        }
+        return Some(final_env);
+    }
     // Checks if the library is a standard library.
     if lib.starts_with("std:") {
         // Loads the standard library.
