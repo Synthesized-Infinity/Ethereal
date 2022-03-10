@@ -10,7 +10,7 @@ use std::{
 
 pub type InbuiltFunction = fn(Vec<Object>) -> Object;
 
-#[derive(PartialEq, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub enum Object {
     Number(f64),
     String(String),
@@ -23,6 +23,25 @@ pub enum Object {
     Array(Vec<Object>),
     Object(HashMap<Object, Object>),
     Typeof(Box<Object>),
+}
+
+impl PartialEq for Object {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (Object::Number(a), Object::Number(b)) => a == b,
+            (Object::String(a), Object::String(b)) => a == b,
+            (Object::Bool(a), Object::Bool(b)) => a == b,
+            (Object::Null, Object::Null) => true,
+            (Object::Return(a), Object::Return(b)) => a == b,
+            (Object::Error(a), Object::Error(b)) => a == b,
+            (Object::Fn(a, b, c), Object::Fn(d, e, f)) => a == d && b == e && c == f,
+            (Object::Inbuilt(a), Object::Inbuilt(b)) => a == b,
+            (Object::Array(a), Object::Array(b)) => a == b,
+            (Object::Object(a), Object::Object(b)) => a == b,
+            (Object::Typeof(a), Object::Typeof(b)) => a == b,
+            _ => false,
+        }
+    }
 }
 
 impl Eq for Object {}
