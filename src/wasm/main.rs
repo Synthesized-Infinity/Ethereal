@@ -54,13 +54,19 @@ pub fn alloc(size: usize) -> *mut c_void {
     ptr as *mut c_void
 }
 
+/// # Safety
+/// 
+/// This is unsafe because it is the caller's responsibility to ensure that the
+/// pointer is valid for the duration of the call.
 #[no_mangle]
-pub fn dealloc(ptr: *mut c_void, size: usize) {
-    unsafe {
-        let _buf = Vec::from_raw_parts(ptr, 0, size);
-    }
+pub unsafe fn dealloc(ptr: *mut c_void, size: usize) {
+    let _buf = Vec::from_raw_parts(ptr, 0, size);
 }
 
+/// # Safety
+///
+/// This function is unsafe because it is the caller's responsibility to ensure 
+/// that the pointer is valid.
 #[no_mangle]
 pub unsafe fn eval(input_ptr: *mut c_char) -> *mut c_char {
     let input = CStr::from_ptr(input_ptr).to_string_lossy().into_owned();
