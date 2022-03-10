@@ -15,7 +15,7 @@ pub fn new_globals() -> HashMap<String, Object> {
 /// and logs them to the console.
 /// It returns `null`.
 fn log(args: Vec<Object>) -> Object {
-    if args.len() < 1 {
+    if args.is_empty() {
         return Object::Error(String::from("Wrong number of arguments"));
     } else {
         for arg in args {

@@ -23,7 +23,7 @@ fn is_letter(c: char) -> bool {
 }
 
 pub fn find_indentifier(ident: &str) -> Option<&Token> {
-    return KEYWORDS.get(ident)
+    KEYWORDS.get(ident)
 }
 
 pub struct Lexer {

@@ -11,7 +11,7 @@ pub fn add_globals() -> Res {
     globals.insert(String::from("head"), Object::Inbuilt(head));
     globals.insert(String::from("tail"), Object::Inbuilt(tail));
     globals.insert(String::from("push"), Object::Inbuilt(push));
-    return Res {
+    Res {
         globals,
         raw: Some("
             include \"std:util\";

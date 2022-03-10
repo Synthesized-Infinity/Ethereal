@@ -16,7 +16,7 @@ pub fn load_etrl(lib: String) -> Option<HashMap<String, Object>> {
     if lib.starts_with("std:") {
         // Loads the standard library.
         // The standard library is a HashMap of names to objects.
-        let libs = get_std_lib(lib.clone()).unwrap();
+        let libs = get_std_lib(lib).unwrap();
         let mut eval = Eval::new(Rc::new(RefCell::new(
             Store::from(libs.globals.clone())
         )));

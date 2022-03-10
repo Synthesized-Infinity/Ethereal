@@ -7,7 +7,7 @@ pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
     globals.insert(String::from("length"), Object::Inbuilt(length));
     globals.insert(String::from("input"), Object::Inbuilt(input));
-    return Res { globals, raw: None }
+    Res { globals, raw: None }
 }
 
 /// Function to get the length of an array or string.
@@ -32,13 +32,10 @@ pub fn length(args: Vec<Object>) -> Object {
 
 pub fn input(args: Vec<Object>) -> Object {
     println!("{}", &args[0]);
-    match &args[0] {
-        Object::String(s) => {
-            print!("{}", s);
-        }
-        _ => ()
+    if let Object::String(s) = &args[0] {
+        print!("{}", s);
     }
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).expect("Failed to read line");
-    return Object::String(input);
+    Object::String(input)
 }

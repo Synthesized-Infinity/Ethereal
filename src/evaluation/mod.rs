@@ -273,8 +273,8 @@ impl Eval {
             Expr::Index { array, index } => {
                 let arr = self.eval_expr(*array);
                 let i = self.eval_expr(*index);
-                if arr.is_some() && i.is_some() {
-                    Some(self.eval_index_expr(arr.unwrap(), i.unwrap()))
+                if let (Some(Object::Array(arr)), Some(Object::Number(i))) = (arr, i) {
+                    Some(self.eval_index_expr(Object::Array(arr), Object::Number(i)))
                 } else {
                     None
                 }
@@ -450,8 +450,7 @@ impl Eval {
             .map(|a| self.eval_expr(a.clone()).unwrap_or(Object::Null))
             .collect::<Vec<_>>();
 
-        let x= self.apply_function(function, args);
-        x
+        self.apply_function(function, args)
     }
 
     fn eval_index_expr(&mut self, left: Object, index: Object) -> Object {

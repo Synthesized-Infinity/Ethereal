@@ -11,7 +11,7 @@ impl Parser {
 
     pub fn new(lexer: Lexer) -> Self {
         let mut p: Parser = Parser {
-            lexer: lexer,
+            lexer,
             current_token: Token::Eof,
             peek_token: Token::Eof,
             errors: vec![],
@@ -449,9 +449,9 @@ impl Parser {
         match self.current_token {
             Token::Ident(ref mut ident) => idents.push(Ident(ident.clone())),
             _ => {
-                self.errors.push(String::from(
-                   format!("Expected identifier as parameter name. Got: {}", self.current_token.to_string())
-                ));
+                self.errors.push(
+                   format!("Expected identifier as parameter name. Got: {}", self.current_token)
+                );
                 return None;
             }
         };
