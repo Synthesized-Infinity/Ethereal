@@ -34,7 +34,7 @@ fn parse(input: &str) -> Result<Program, String> {
     let program = parser.parse_program();
     let errors = parser.errors;
 
-    if errors.len() > 0 {
+    if !errors.is_empty() {
         let msg = errors
             .into_iter()
             .map(|e| format!("{}\n", e))
@@ -62,8 +62,8 @@ pub fn dealloc(ptr: *mut c_void, size: usize) {
 }
 
 #[no_mangle]
-pub fn eval(input_ptr: *mut c_char) -> *mut c_char {
-    let input = unsafe { CStr::from_ptr(input_ptr).to_string_lossy().into_owned() };
+pub unsafe fn eval(input_ptr: *mut c_char) -> *mut c_char {
+    let input = CStr::from_ptr(input_ptr).to_string_lossy().into_owned();
     let program = match parse(&input) {
         Ok(program) => program,
         Err(msg) => return string_to_ptr(msg),
