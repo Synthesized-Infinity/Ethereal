@@ -8,6 +8,9 @@
 Simple yet fast general-purpose programming language. 
 
 ![Build](https://github.com/Synthesized-Infinity/Ethereal/actions/workflows/build.yml/badge.svg)
+![Lint](https://github.com/Synthesized-Infinity/Ethereal/actions/workflows/lint.yml/badge.svg)
+![Security](https://github.com/Synthesized-Infinity/Ethereal/actions/workflows/devskim.yml/badge.svg)
+
 
 [Documentation](https://ethereal-docs.vercel.app/)
 
