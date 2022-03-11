@@ -7,6 +7,7 @@ pub fn add_globals() -> Res {
     let mut globals = HashMap::new();
     globals.insert(String::from("length"), Object::Inbuilt(length));
     globals.insert(String::from("input"), Object::Inbuilt(input));
+    globals.insert(String::from("sleep"), Object::Inbuilt(sleep));
     Res { globals, raw: None }
 }
 
@@ -38,4 +39,17 @@ pub fn input(args: Vec<Object>) -> Object {
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).expect("Failed to read line");
     Object::String(input)
+}
+
+pub fn sleep(args: Vec<Object>) -> Object {
+    if args.len() != 1 {
+        return Object::Error(format!(
+            "Wrong number of arguments. Got {}. Expected 1.",
+            args.len()
+        ));
+    }
+    if let Object::Number(n) = &args[0] {
+        std::thread::sleep(std::time::Duration::from_millis(*n as u64));
+    }
+    Object::Null
 }
