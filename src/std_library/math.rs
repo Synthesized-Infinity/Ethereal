@@ -14,6 +14,8 @@ pub fn add_globals() -> Res {
     globals.insert(String::from("floor"), Object::Inbuilt(floor));
     globals.insert(String::from("abs"), Object::Inbuilt(abs));
     globals.insert(String::from("sqrt"), Object::Inbuilt(sqrt));
+    globals.insert(String::from("MAX_INT"), Object::Number(std::f64::MAX));
+    globals.insert(String::from("MIN_INT"), Object::Number(std::f64::MIN));
     Res {
         globals,
         raw: None,
