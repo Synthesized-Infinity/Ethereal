@@ -6,6 +6,7 @@ pub mod array;
 pub mod fs;
 pub mod string;
 pub mod math;
+pub mod json;
 /// Function to load a standard library 
 /// # Arguments
 /// * `lib` - The name of the library to load.
@@ -23,6 +24,8 @@ pub fn get_std_lib(lib: String) -> Option<Res> {
         "std:string" => Some(string::add_globals()),
         "std:fs" => Some(fs::add_globals()),
         "std:math" => Some(math::add_globals()),
+        "std:json" => Some(json::add_globals()),
+        
         _ => None,
     }
 }
