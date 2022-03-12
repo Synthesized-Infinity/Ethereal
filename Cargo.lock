@@ -166,6 +166,7 @@ dependencies = [
  "rand 0.8.5",
  "reqwest",
  "rusty_express",
+ "serde_json",
  "vfs",
  "wasm-bindgen",
 ]
