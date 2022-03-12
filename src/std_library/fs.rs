@@ -32,18 +32,22 @@ pub fn read_file(args: Vec<Object>) -> Object {
             let path = Path::new(s);
             let display = path.display();
             let mut file = match File::open(&path) {
-                Err(why) => panic!("couldn't open {}: {}", display, why),
+                Err(why) => {
+                    return Object::Error(format!("Couldn't open {}: {}", display, why))
+                }
                 Ok(file) => file,
             };
             let mut s = String::new();
             match file.read_to_string(&mut s) {
-                Err(why) => panic!("couldn't read {}: {}", display, why),
+                Err(why) => {
+                    return Object::Error(format!("Couldn't read {}: {}", display, why))
+                }
                 Ok(_) => {
                     Object::String(s)
                 }
             }
         }
-        _ => panic!("Argument must be a string. Got {}", args[0]),
+        _ => Object::Error(format!("Argument must be a string. Got {}", args[0]))
     }
 }
 
@@ -59,17 +63,21 @@ pub fn write_file(args: Vec<Object>) -> Object {
             let path = Path::new(s);
             let display = path.display();
             let mut file = match File::create(&path) {
-                Err(why) => panic!("couldn't create {}: {}", display, why),
+                Err(why) => {
+                    return Object::Error(format!("Couldn't create {}: {}", display, why))
+                }
                 Ok(file) => file,
             };
             match file.write_all(args[1].to_string().as_bytes()) {
-                Err(why) => panic!("couldn't write to {}: {}", display, why),
+                Err(why) => {
+                    return Object::Error(format!("Couldn't write to {}: {}", display, why))
+                }
                 Ok(_) => {
                     Object::Null
                 }
             }
         }
-        _ => panic!("Argument must be a string. Got {}", args[0]),
+        _ => Object::Error(format!("Argument must be a string. Got {}", args[0]))
     }
 }
 
@@ -89,7 +97,7 @@ pub fn file_exists(args: Vec<Object>) -> Object {
                 Object::Bool(false)
             }
         }
-        _ => panic!("Argument must be a string. Got {}", args[0]),
+        _ => Object::Error(format!("Argument must be a string. Got {}", args[0]))
     }
 }
 
