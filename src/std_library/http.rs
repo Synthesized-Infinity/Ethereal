@@ -69,6 +69,7 @@ pub fn request(args: Vec<Object>) -> Object {
             let status_line = format!("{} {}", status_code, status_text);
             let mut result = HashMap::new();
             result.insert(Object::String("status".to_string()), Object::String(status_line));
+            result.insert(Object::String("headers".to_string()), Object::Object(headers));
             result.insert(Object::String("body".to_string()), Object::String(body.to_string()));
             Object::Object(result)
         },
