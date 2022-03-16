@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=https://ethereal-docs.vercel.app/Logo.png width=128>
+<img src=https://ethereal-docs.vercel.app/Logo.png width=150>
 
 
 # Ethereal
