@@ -1,9 +1,9 @@
 
-extern crate ethereal;
+extern crate ethereal_lang;
 
 use std::env;
 use std::fs;
-use ethereal::repl;
+use ethereal_lang::repl;
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() != 1 && args[1].as_str() == "run" {
@@ -14,7 +14,7 @@ fn main() {
         }
         let content = fs::read_to_string(&args[2]).expect("Could not read file.");
 
-        ethereal::interpret(content.as_str());
+        ethereal_lang::interpret(content.as_str());
     } else {
     
         println!(

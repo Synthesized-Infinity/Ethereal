@@ -159,7 +159,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ethereal"
+name = "ethereal_lang"
 version = "0.1.0"
 dependencies = [
  "lazy_static",

@@ -1,12 +1,12 @@
-extern crate ethereal;
+extern crate ethereal_lang;
 
-use ethereal::ast::Program;
-use ethereal::evaluation::globals::new_globals;
-use ethereal::evaluation::store::Store;
-use ethereal::evaluation::object::Object;
-use ethereal::evaluation::Eval;
-use ethereal::lexer::Lexer;
-use ethereal::parser::Parser;
+use ethereal_lang::ast::Program;
+use ethereal_lang::evaluation::globals::new_globals;
+use ethereal_lang::evaluation::store::Store;
+use ethereal_lang::evaluation::object::Object;
+use ethereal_lang::evaluation::Eval;
+use ethereal_lang::lexer::Lexer;
+use ethereal_lang::parser::Parser;
 use std::cell::RefCell;
 use std::ffi::{CStr, CString};
 use std::mem;
