@@ -23,6 +23,13 @@ pub enum Token {
     Anew,
     In,
 
+    // Bitwise operators
+    AND,
+    OR,
+    XOR,
+    LeftShift,
+    RightShift,
+
     // Comparison
     Less,
     Greater,

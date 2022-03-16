@@ -121,6 +121,9 @@ impl Lexer {
             ',' => Token::Comma,
             '+' => Token::Plus,
             '-' => Token::Minus,
+            '&' => Token::AND,
+            '|' => Token::OR,
+            '^' => Token::XOR,
             '%' => Token::Percent,
             '!' => {
                 if self.peek_char() == '=' {
@@ -146,22 +149,16 @@ impl Lexer {
                     Token::Slash
                 }
             }
-            '<' => {
-                if self.peek_char() == '=' {
-                    self.read_char();
-                    Token::LessEqual
-                } else {
-                    Token::Less
-                }
-            }
-            '>' => {
-                if self.peek_char() == '=' {
-                    self.read_char();
-                    Token::GreaterEqual
-                } else {
-                    Token::Greater
-                }
-            }
+            '<' => match self.peek_char() {
+                    '<' => Token::LeftShift,
+                    '=' => Token::LessEqual,
+                    _ => Token::Less
+                },
+            '>' => match self.peek_char() {
+                    '>' => Token::RightShift,
+                    '=' => Token::GreaterEqual,
+                    _ => Token::Greater
+                },
             '"' => Token::String(self.read_string()),
             '\u{0}' => Token::Eof,
             _ => {

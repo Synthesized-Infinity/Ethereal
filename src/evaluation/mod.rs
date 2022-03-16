@@ -453,6 +453,11 @@ impl Eval {
             Infix::Equals => Object::Bool(left == right),
             Infix::NotEquals => Object::Bool(left != right),
             Infix::In => Object::Bool(left.to_string().contains(&right.to_string())),
+            Infix::LeftShift => Object::Number(((left as i64) << (right as i64)) as f64),
+            Infix::RightShift => Object::Number(((left as i64) >> (right as i64)) as f64),
+            Infix::AND => Object::Number((left as i64 & right as i64) as f64),
+            Infix::OR => Object::Number((left as i64 | right as i64) as f64),
+            Infix::XOR => Object::Number((left as i64 ^ right as i64) as f64)
         }
     }
 
@@ -527,7 +532,6 @@ impl Eval {
         self.store = Rc::new(RefCell::new(extended_store));
         let evaluated = self.eval_block_statement(body);
         self.store = current_store;
-        //println!("{:#?}", self.store);
         self.unwrap_return_value(evaluated)
     }
 

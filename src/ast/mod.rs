@@ -24,7 +24,12 @@ pub enum Infix {
     LessThan,
     GreaterThan,
     LessThanEqual,
-    GreaterThanEqual
+    GreaterThanEqual,
+    LeftShift,
+    RightShift,
+    AND,
+    OR,
+    XOR,
 }
 
 #[derive(PartialEq, Clone, Debug)]
@@ -55,7 +60,12 @@ pub enum Precedence {
     Prefix,
     Call,
     Index,
-    In
+    In,
+    LeftShift,
+    RightShift,
+    AND,
+    OR,
+    XOR
 }
 
 pub type BlockStatement = Vec<Statement>;
@@ -105,7 +115,7 @@ impl Display for Prefix {
         match *self {
             Prefix::Plus => write!(f, "+"),
             Prefix::Minus => write!(f, "-"),
-            Prefix::Exclamation => write!(f, "!")
+            Prefix::Exclamation => write!(f, "!"),
         }
     }
 }
@@ -124,7 +134,12 @@ impl Display for Infix {
             Infix::LessThan => write!(f, "<"),
             Infix::GreaterThan => write!(f, ">"),
             Infix::LessThanEqual => write!(f, "<="),
-            Infix::GreaterThanEqual => write!(f, ">=")
+            Infix::GreaterThanEqual => write!(f, ">="),
+            Infix::LeftShift => write!(f, "<<"),
+            Infix::RightShift => write!(f, ">>"),
+            Infix::AND => write!(f, "&"),
+            Infix::OR => write!(f, "|"),
+            Infix::XOR => write!(f, "^")
         }
     }
 }
@@ -134,7 +149,3 @@ impl Display for Expr {
         write!(f, "{:?}", self)
     }
 }
-
-
-
-
