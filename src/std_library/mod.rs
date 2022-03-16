@@ -8,6 +8,7 @@ pub mod string;
 pub mod math;
 pub mod json;
 pub mod http;
+pub mod hash;
 /// Function to load a standard library 
 /// # Arguments
 /// * `lib` - The name of the library to load.
@@ -27,6 +28,7 @@ pub fn get_std_lib(lib: String) -> Option<Res> {
         "std:math" => Some(math::add_globals()),
         "std:json" => Some(json::add_globals()),
         "std:http" => Some(http::add_globals()),
+        "std:hash" => Some(hash::add_globals()),
         _ => None,
     }
 }
