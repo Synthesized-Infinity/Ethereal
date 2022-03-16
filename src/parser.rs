@@ -196,7 +196,6 @@ impl Parser {
             }
         };
 
-
         while !self.peek_token(&Token::Semicolon) && precedence < self.next_token_precedence() {
             match self.peek_token {
                 Token::Plus
@@ -209,11 +208,27 @@ impl Parser {
                 | Token::Less
                 | Token::LessEqual
                 | Token::Greater
-                | Token::GreaterEqual 
+                | Token::GreaterEqual
+                | Token::AND
+                | Token::OR
+                | Token::XOR
                 | Token::In => {
                     self.next_token();
                     left = self.parse_infix_expr(left.unwrap());
                 }
+
+                Token::LeftShift => {
+                    self.lexer.next_token();
+                    self.next_token();
+                    left = self.parse_infix_expr(left.unwrap());
+                }
+
+                Token::RightShift => {
+                    self.lexer.next_token();
+                    self.next_token();
+                    left = self.parse_infix_expr(left.unwrap());
+                }
+
                 Token::LeftParen => {
                     self.next_token();
                     left = self.parse_call_expr(left.unwrap());
@@ -352,6 +367,11 @@ impl Parser {
             Token::Greater => Infix::GreaterThan,
             Token::LessEqual => Infix::LessThanEqual,
             Token::GreaterEqual => Infix::GreaterThanEqual,
+            Token::LeftShift => Infix::LeftShift,
+            Token::RightShift => Infix::RightShift,
+            Token::AND => Infix::AND,
+            Token::OR => Infix::OR,
+            Token::XOR => Infix::XOR,
             Token::In => Infix::In,
             _ => return None,
         };
@@ -434,6 +454,11 @@ impl Parser {
             Token::LeftBracket => Precedence::Index,
             Token::LeftParen => Precedence::Call,
             Token::In => Precedence::In,
+            Token::LeftShift => Precedence::LeftShift,
+            Token::RightShift => Precedence::RightShift,
+            Token::AND => Precedence::AND,
+            Token::OR => Precedence::OR,
+            Token::XOR => Precedence::XOR,
             _ => Precedence::Lowest,
         }
     }
