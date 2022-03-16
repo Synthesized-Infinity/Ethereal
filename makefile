@@ -1,4 +1,4 @@
-build
+build:
 	cargo build --release --bin ethereal-bin 
 
 build-wasm:
