@@ -44,9 +44,12 @@ impl Parser {
             Token::Return => self.parse_return_statement(),
             Token::Include => self.parse_include_statement(),
             Token::Anew => self.parse_anew_expr(),
+            Token::Break => self.parse_break_statement(),
+            Token::Continue => self.parse_continue_statement(),
             _ => self.parse_expr_statement(),
         }
     }
+
 
     pub fn parse_expr_statement(&mut self) -> Option<Statement> {
         match self.parse_expr(Precedence::Lowest) {
@@ -169,6 +172,22 @@ impl Parser {
         Some(Statement::Anew(name, lit))
     }
 
+    pub fn parse_break_statement(&mut self) -> Option<Statement> {
+        self.next_token();
+        while !self.current_token(Token::Semicolon) {
+            self.next_token();
+        }
+        Some(Statement::Break)
+    }
+
+    pub fn parse_continue_statement(&mut self) -> Option<Statement> {
+        self.next_token();
+        while !self.current_token(Token::Semicolon) {
+            self.next_token();
+        }
+        Some(Statement::Continue)
+    }
+
     fn parse_typof_expr(&mut self) -> Option<Expr> {
         self.next_token();
         let expr = match self.parse_expr(Precedence::Lowest) {
@@ -176,6 +195,12 @@ impl Parser {
             None => return None,
         };
         Some(Expr::Typeof { expr: Box::new(expr) })
+    }
+
+    fn parse_loop_expr(&mut self) -> Option<Expr> {
+        self.next_token();
+        let body = self.parse_block_statement();
+        Some(Expr::Loop { body })
     }
 
     fn parse_expr(&mut self, precedence: Precedence) -> Option<Expr> {
@@ -191,6 +216,7 @@ impl Parser {
             Token::LeftBracket => self.parse_array_literal(),
             Token::LeftBrace => self.parse_object_literal(),
             Token::Typeof => self.parse_typof_expr(),
+            Token::Loop => self.parse_loop_expr(),
             _ => {
                 None
             }

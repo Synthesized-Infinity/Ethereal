@@ -14,6 +14,9 @@ lazy_static::lazy_static! {
         keywords.insert("true", Token::Boolean(true));
         keywords.insert("false", Token::Boolean(false));
         keywords.insert("typeof", Token::Typeof);
+        keywords.insert("loop", Token::Loop);
+        keywords.insert("break", Token::Break);
+        keywords.insert("continue", Token::Continue);
         keywords
     };
 }

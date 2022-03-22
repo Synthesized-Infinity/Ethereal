@@ -56,7 +56,10 @@ pub enum Token {
     Else,
     Return,
     Include,
-    Typeof
+    Typeof,
+    Loop,
+    Break,
+    Continue
 
 }
 

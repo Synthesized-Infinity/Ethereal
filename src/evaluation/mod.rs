@@ -168,7 +168,9 @@ impl Eval {
             Statement::Include(i) => {
                 let lib = i;
                 self.extend_global_store(lib)
-            }
+            },
+            Statement::Break => Some(Object::Break),
+            Statement::Continue => Some(Object::Continue),
         }
     }
 
@@ -203,6 +205,8 @@ impl Eval {
             match self.eval_statement(statement) {
                 Some(Object::Return(e)) => return Some(Object::Return(e)),
                 Some(Object::Error(e)) => return Some(Object::Error(e)),
+                Some(Object::Break) => return Some(Object::Break),
+                Some(Object::Continue) => return Some(Object::Continue),
                 e => result = e,
             }
         }
@@ -292,6 +296,21 @@ impl Eval {
                 }
             }
             Expr::Typeof { expr } => Some(self.eval_typeof_expr(*expr)),
+
+            Expr::Loop { body }  => {
+                let mut _result = None;
+                loop {
+                    match self.eval_block_statement((*body).to_vec()) {
+                        Some(Object::Return(e)) => return Some(Object::Return(e)),
+                        Some(Object::Error(e)) => return Some(Object::Error(e)),
+                        Some(Object::Break) => {
+                            break Some(Object::Null);
+                        },
+                        Some(Object::Continue) => continue,
+                        e => _result = e,
+                    }
+                }
+            }
         }
     }
 

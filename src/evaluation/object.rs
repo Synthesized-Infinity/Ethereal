@@ -23,6 +23,9 @@ pub enum Object {
     Array(Vec<Object>),
     Object(HashMap<Object, Object>),
     Typeof(Box<Object>),
+    Loop(Box<BlockStatement>),
+    Break,
+    Continue
 }
 
 impl PartialEq for Object {
@@ -91,6 +94,9 @@ impl fmt::Display for Object {
                 write!(f, "{{{}}}", res)
             }
             Object::Typeof(ref obj) => write!(f, "typeof({})", obj),
+            Object::Loop(ref _block) => write!(f, "loop {{ ... }}"),
+            Object::Break => write!(f, "break"),
+            Object::Continue => write!(f, "continue"),
         }
     }
 }

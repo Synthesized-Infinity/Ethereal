@@ -47,7 +47,9 @@ pub enum Statement {
     Return(Expr),
     Expression(Expr),
     Include(String),
-    Anew(Ident, Expr)
+    Anew(Ident, Expr),
+    Break,
+    Continue
 }
 
 #[derive(PartialEq, PartialOrd, Debug, Clone)]
@@ -100,6 +102,10 @@ pub enum Expr {
     Typeof {
         expr: Box<Expr>
     },
+
+    Loop {
+        body: BlockStatement
+    }
 
 }
 
