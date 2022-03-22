@@ -23,7 +23,7 @@ Ethereal is a general-purpose programming language that is designed to be fast a
 
 - Includes a Standard Library
 - Comes with a REPL
-- Compiles to WASM (Experimental)
+- Rus in the Browser with WASM (Experimental)
 
 
 Want to contribute? Read the steps below on how to run ethereal on your local machine.
