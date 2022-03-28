@@ -12,9 +12,9 @@ pub fn add_globals() -> Res {
 }
 
 pub fn request(args: Vec<Object>) -> Object {
-    if args.len() < 2 || args.len() > 3 {
+    if args.len() < 2 || args.len() > 4 {
         return Object::Error(format!(
-            "Wrong number of arguments. Got {}. Expected 2 or 3.",
+            "Wrong number of arguments. Got {}. Expected 2-4.",
             args.len()
         ));
     }
@@ -48,10 +48,15 @@ pub fn request(args: Vec<Object>) -> Object {
 
     let client = reqwest::blocking::Client::new();
 
+    let body: String = match &args[3] {
+        Object::String(s) => s.clone(),
+        o=> o.to_string(),
+    };
+
     let response = match method.as_str() {
         "GET" => client.get(url).headers(headers).send(),
-        "POST" => client.post(url).headers(headers).send(),
-        "PUT" => client.put(url).headers(headers).send(),
+        "POST" => client.post(url).headers(headers).body::<String>(body).send(),
+        "PUT" => client.put(url).headers(headers).body::<String>(body).send(),
         "DELETE" => client.delete(url).headers(headers).send(),
         _ => return Object::Error(format!("Unsupported HTTP method {}", method)),
     };
